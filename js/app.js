@@ -1,6 +1,6 @@
 (() => {
   const STORAGE_KEY = "sv-course-progress-v1";
-  const pageOrder = ["home", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9"];
+  const pageOrder = ["home", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"];
   const app = document.getElementById("app");
   const sideNav = document.getElementById("sideNav");
   const progressFill = document.getElementById("progressFill");
@@ -78,7 +78,7 @@
         <div class="hero-panel home">
           <span class="kicker">Interactive Software Course</span>
           <h1>SW × Vibe Coding</h1>
-          <p class="lead">컴퓨터의 시초부터 국제 표준, 그리고 AI와 함께 요구사항을 다루는 바이브 코딩까지 — 9페이지로 체험하는 실무형 입문 강좌입니다.</p>
+          <p class="lead">컴퓨터의 시초부터 국제 표준, 그리고 AI와 함께 요구사항을 다루는 바이브 코딩까지 — 10페이지로 체험하는 실무형 입문 강좌입니다.</p>
           <div class="cta-row">
             <button class="btn btn-primary" data-go="p1">1페이지부터 시작</button>
             <button class="btn btn-ghost" data-go="p7">바이브 코딩부터</button>
@@ -429,6 +429,64 @@ JMP START</div>
     return pageShell(page, body);
   }
 
+  function renderP10(page) {
+    const slides = page.slides || [];
+    const track = slides
+      .map(
+        (s, i) => `
+      <figure class="story-slide${s.image?.pending ? " is-pending" : ""}" data-slide-index="${i}">
+        <img src="${s.image.src}" alt="${s.image.alt}" loading="${i === 0 ? "eager" : "lazy"}" />
+        <figcaption>${s.image.caption}</figcaption>
+      </figure>`
+      )
+      .join("");
+    const dots = slides
+      .map(
+        (_, i) =>
+          `<button type="button" class="story-dot${i === 0 ? " active" : ""}" data-story-goto="${i}" aria-label="슬라이드 ${i + 1}"></button>`
+      )
+      .join("");
+    const first = slides[0] || {};
+    const points = (first.points || [])
+      .map(
+        (p) => `
+      <li>
+        <strong>${p.label}</strong>
+        <span>${p.text}</span>
+      </li>`
+      )
+      .join("");
+
+    const body = `
+      <div class="story-carousel" id="p10Carousel" data-index="0">
+        <div class="story-media panel">
+          <div class="story-toolbar">
+            <span class="chip" id="storyCounter">1 / ${slides.length}</span>
+            <span class="muted story-hint">옆으로 넘기거나 화살표를 사용하세요</span>
+          </div>
+          <div class="story-viewport" id="storyViewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="효율성 비교 슬라이드">
+            <div class="story-track" id="storyTrack">
+              ${track}
+            </div>
+          </div>
+          <div class="story-controls">
+            <button type="button" class="btn btn-outline story-nav" id="storyPrev" aria-label="이전 슬라이드">←</button>
+            <div class="story-dots" id="storyDots">${dots}</div>
+            <button type="button" class="btn btn-outline story-nav" id="storyNext" aria-label="다음 슬라이드">→</button>
+          </div>
+        </div>
+        <div class="panel story-copy" id="storyCopy">
+          <div class="meta" id="storyKicker">${first.kicker || ""}</div>
+          <h2 id="storyTitle">${first.title || ""}</h2>
+          <p class="lead muted" id="storyLead">${first.lead || ""}</p>
+          <ul class="story-points" id="storyPoints">${points}</ul>
+          <div class="story-takeaway" id="storyTakeaway">${first.takeaway || ""}</div>
+        </div>
+      </div>
+    `;
+    return pageShell(page, body);
+  }
+
   const renderers = {
     home: renderHome,
     p1: renderP1,
@@ -440,6 +498,7 @@ JMP START</div>
     p7: renderP7,
     p8: renderP8,
     p9: renderP9,
+    p10: renderP10,
   };
 
   function buildSidebar() {
@@ -678,6 +737,104 @@ JMP START</div>
     });
   }
 
+  function bindP10(root, page) {
+    const slides = page.slides || [];
+    if (!slides.length) return;
+
+    const carousel = root.querySelector("#p10Carousel");
+    const track = root.querySelector("#storyTrack");
+    const viewport = root.querySelector("#storyViewport");
+    const counter = root.querySelector("#storyCounter");
+    const dots = [...root.querySelectorAll("[data-story-goto]")];
+    const prevBtn = root.querySelector("#storyPrev");
+    const nextBtn = root.querySelector("#storyNext");
+    const kicker = root.querySelector("#storyKicker");
+    const title = root.querySelector("#storyTitle");
+    const lead = root.querySelector("#storyLead");
+    const points = root.querySelector("#storyPoints");
+    const takeaway = root.querySelector("#storyTakeaway");
+    const copy = root.querySelector("#storyCopy");
+    let index = 0;
+    let touchX = null;
+
+    function renderCopy(slide) {
+      if (!slide) return;
+      copy?.classList.remove("swap");
+      void copy?.offsetWidth;
+      copy?.classList.add("swap");
+      kicker.textContent = slide.kicker || "";
+      title.textContent = slide.title || "";
+      lead.textContent = slide.lead || "";
+      points.innerHTML = (slide.points || [])
+        .map(
+          (p) => `
+        <li>
+          <strong>${p.label}</strong>
+          <span>${p.text}</span>
+        </li>`
+        )
+        .join("");
+      takeaway.textContent = slide.takeaway || "";
+    }
+
+    function goTo(next) {
+      index = Math.max(0, Math.min(slides.length - 1, next));
+      track.style.transform = `translateX(-${index * 100}%)`;
+      carousel.dataset.index = String(index);
+      counter.textContent = `${index + 1} / ${slides.length}`;
+      dots.forEach((d, i) => d.classList.toggle("active", i === index));
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+      renderCopy(slides[index]);
+    }
+
+    prevBtn?.addEventListener("click", () => goTo(index - 1));
+    nextBtn?.addEventListener("click", () => goTo(index + 1));
+    dots.forEach((d) =>
+      d.addEventListener("click", () => goTo(Number(d.dataset.storyGoto)))
+    );
+
+    viewport?.addEventListener(
+      "touchstart",
+      (e) => {
+        touchX = e.changedTouches[0].clientX;
+      },
+      { passive: true }
+    );
+    viewport?.addEventListener(
+      "touchend",
+      (e) => {
+        if (touchX == null) return;
+        const dx = e.changedTouches[0].clientX - touchX;
+        touchX = null;
+        if (Math.abs(dx) < 40) return;
+        goTo(index + (dx < 0 ? 1 : -1));
+      },
+      { passive: true }
+    );
+
+    viewport?.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") goTo(index + 1);
+      if (e.key === "ArrowLeft") goTo(index - 1);
+    });
+
+    let dragX = null;
+    viewport?.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") return;
+      dragX = e.clientX;
+      viewport.setPointerCapture?.(e.pointerId);
+    });
+    viewport?.addEventListener("pointerup", (e) => {
+      if (dragX == null) return;
+      const dx = e.clientX - dragX;
+      dragX = null;
+      if (Math.abs(dx) < 50) return;
+      goTo(index + (dx < 0 ? 1 : -1));
+    });
+
+    goTo(0);
+  }
+
   function bindPageInteractions(root, id) {
     bindQuiz(root);
     if (id === "p2") bindP2(root);
@@ -688,6 +845,7 @@ JMP START</div>
     if (id === "p7") bindP7(root);
     if (id === "p8") bindP8(root);
     if (id === "p9") bindP9(root);
+    if (id === "p10") bindP10(root, COURSE.pages.p10);
 
     root.querySelectorAll("[data-go]").forEach((btn) => {
       btn.addEventListener("click", () => navigate(btn.dataset.go));

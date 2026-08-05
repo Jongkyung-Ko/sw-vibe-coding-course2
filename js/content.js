@@ -14,7 +14,7 @@ window.COURSE = {
     {
       id: "m3",
       title: "좋은 Vibe 코딩을 위한 요구사항 관리",
-      pages: ["p7", "p8", "p9"],
+      pages: ["p7", "p8", "p9", "p10"],
     },
   ],
   pages: {
@@ -182,6 +182,67 @@ window.COURSE = {
           src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Agile_software_development_release_early_and_often.jpg/960px-Agile_software_development_release_early_and_often.jpg",
           alt: "빠른 반복 배포",
           caption: "작은 단위로 자주 확인 — 바이브 코딩의 안전한 운영 방식",
+        },
+      ],
+    },
+    p10: {
+      id: "p10",
+      module: "좋은 Vibe 코딩을 위한 요구사항 관리",
+      title: "효율성 비교 — 전통 코딩 vs 프롬프팅 관리",
+      summary: "이미지를 옆으로 넘기며, 전통 방식 대비 효율성과 프롬프팅 관리가 만드는 수행력을 함께 확인합니다.",
+      slides: [
+        {
+          id: "efficiency",
+          kicker: "Slide 01 · Efficiency",
+          title: "전통 코딩 방식과 비교한 효율성",
+          lead: "같은 기획·설계·구현·검증·배포 단계라도, 일하는 구조가 다르면 일정·인력·스트레스 비용이 크게 갈립니다.",
+          image: {
+            src: "assets/p10/slide-01-vibe-vs-traditional.png",
+            alt: "바이브 코딩 기반 대규모 프로젝트와 전통적 대형 프로젝트 비교",
+            caption: "왼쪽: Vibe Coding Framework로 연결된 협업 · 오른쪽: 일정 지연과 팀 사일로가 쌓인 전통형 대형 프로젝트",
+          },
+          points: [
+            {
+              label: "전통 대형 프로젝트",
+              text: "기획×8 · 설계×12 · 구현×30 · 검증×10 · 배포×5처럼 단계별 인력이 비대하고, 핸드오프마다 대기·재설명이 생깁니다.",
+            },
+            {
+              label: "Vibe Coding 기반",
+              text: "중앙 프레임워크와 실시간 컨텍스트 공유로 팀이 같은 허브를 보며 움직여, 중복 조율과 문서 왕복을 줄입니다.",
+            },
+            {
+              label: "일정·품질 신호",
+              text: "전통형은 Gantt에 ‘Schedule slips’가 쌓이기 쉽고, 바이브형은 작은 루프로 막히는지점을 더 빨리 드러냅니다.",
+            },
+          ],
+          takeaway: "효율성은 ‘사람 수’가 아니라 ‘정보가 끊기지 않는 구조’에서 나옵니다. AI는 그 구조를 더 가볍게 돌리는 엔진입니다.",
+        },
+        {
+          id: "prompting",
+          kicker: "Slide 02 · Prompting Ops",
+          title: "프롬프팅 관리가 만드는 수행력",
+          lead: "프롬프트를 즉흥 채팅이 아니라 프로젝트 운영 자산으로 다루면, 계획·구현·검증 속도가 함께 올라갑니다.",
+          image: {
+            src: "assets/p10/slide-02-prompting-placeholder.png",
+            alt: "프롬프팅 관리와 프로젝트 수행력 슬라이드 자리표시자",
+            caption: "두 번째 이미지 준비 중 — 곧 교체됩니다",
+            pending: true,
+          },
+          points: [
+            {
+              label: "컨텍스트를 자산으로",
+              text: "목표·제약·완료정의·금지사항을 고정해 두면, 기획·설계·구현·QA가 같은 기준선 위에서 작업합니다.",
+            },
+            {
+              label: "수행 능력의 증폭",
+              text: "계획 먼저 → 작은 슬라이스 구현 → 검증 루프를 프롬프트에 포함하면, 소규모 팀도 대형 프로젝트의 리듬을 유지할 수 있습니다.",
+            },
+            {
+              label: "효율의 핵심 지표",
+              text: "재설명 횟수, 되돌림(재작업), 수락 기준 통과율이 줄어들수록 프롬프팅 관리가 제대로 작동하는 신호입니다.",
+            },
+          ],
+          takeaway: "좋은 프롬프팅 관리는 ‘더 많이 생성’이 아니라 ‘더 적게 헤매고, 더 빨리 수락’하게 만듭니다.",
         },
       ],
     },
