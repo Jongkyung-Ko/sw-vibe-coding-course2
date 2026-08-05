@@ -223,10 +223,9 @@ window.COURSE = {
           title: "프롬프팅 관리가 만드는 수행력",
           lead: "프롬프트를 즉흥 채팅이 아니라 프로젝트 운영 자산으로 다루면, 계획·구현·검증 속도가 함께 올라갑니다.",
           image: {
-            src: "assets/p10/slide-02-prompting-placeholder.png",
-            alt: "프롬프팅 관리와 프로젝트 수행력 슬라이드 자리표시자",
-            caption: "두 번째 이미지 준비 중 — 곧 교체됩니다",
-            pending: true,
+            src: "assets/p10/slide-02-prompting-execution.png",
+            alt: "프롬프팅 기반 Vibe Coding과 전통 대형 프로젝트의 수행력 비교",
+            caption: "프롬프팅 관리로 연결된 협업 구조(왼쪽)와 인력·일정 부담이 큰 전통형 사일로(오른쪽)",
           },
           points: [
             {
