@@ -1,5 +1,6 @@
 (() => {
   const STORAGE_KEY = "sv-course-progress-v1";
+  const LANG_KEY = "sv-course-lang-v1";
   const pageOrder = ["home", "p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "p10"];
   const app = document.getElementById("app");
   const sideNav = document.getElementById("sideNav");
@@ -9,10 +10,61 @@
   const navToggle = document.getElementById("navToggle");
   const sidebar = document.getElementById("sidebar");
   const backdrop = document.getElementById("sidebarBackdrop");
+  const langSwitch = document.getElementById("langSwitch");
+  const sidebarLabel = document.querySelector(".sidebar-label");
+  const siteFooter = document.querySelector(".site-footer p");
+
+  const UI = {
+    ko: {
+      home: "홈",
+      homeSub: "강좌 개요",
+      contents: "목차",
+      courseHome: "강좌 홈",
+      overview: "Overview",
+      prev: "← 이전",
+      next: "다음 →",
+      toHome: "홈으로",
+      notStarted: "시작 전",
+      pagesUnit: "페이지",
+      interactive: "인터랙티브 실습 포함",
+      start: "시작하기",
+      footer: "이미지 출처: Wikimedia Commons · 교육용 비영리 목적",
+      openNav: "목차 열기",
+      progressAria: "학습 진행률",
+      storyHint: "옆으로 넘기거나 화살표를 사용하세요",
+      storyCarousel: "효율성 비교 슬라이드",
+      storySlide: "슬라이드",
+      prevSlide: "이전 슬라이드",
+      nextSlide: "다음 슬라이드",
+    },
+    en: {
+      home: "Home",
+      homeSub: "Course overview",
+      contents: "Contents",
+      courseHome: "Course home",
+      overview: "Overview",
+      prev: "← Previous",
+      next: "Next →",
+      toHome: "Back to home",
+      notStarted: "Not started",
+      pagesUnit: "pages",
+      interactive: "includes interactive practice",
+      start: "Start",
+      footer: "Image sources: Wikimedia Commons · Educational non-commercial use",
+      openNav: "Open contents",
+      progressAria: "Learning progress",
+      storyHint: "Swipe sideways or use the arrows",
+      storyCarousel: "Efficiency comparison slides",
+      storySlide: "Slide",
+      prevSlide: "Previous slide",
+      nextSlide: "Next slide",
+    },
+  };
 
   const state = {
     visited: new Set(loadProgress()),
     current: "home",
+    lang: loadLang(),
   };
 
   function loadProgress() {
@@ -21,6 +73,28 @@
     } catch {
       return [];
     }
+  }
+
+  function loadLang() {
+    const saved = localStorage.getItem(LANG_KEY);
+    return saved === "en" ? "en" : "ko";
+  }
+
+  function saveLang() {
+    localStorage.setItem(LANG_KEY, state.lang);
+  }
+
+  function t(key) {
+    return UI[state.lang][key] || UI.ko[key] || key;
+  }
+
+  function localizePage(page) {
+    if (!page) return page;
+    if (state.lang === "en" && page.en) {
+      const { en, ...base } = page;
+      return { ...base, ...en, id: page.id };
+    }
+    return page;
   }
 
   function saveProgress() {
@@ -40,17 +114,19 @@
     const idx = pageOrder.indexOf(page.id);
     const prev = pageOrder[idx - 1];
     const next = pageOrder[idx + 1];
+    const moduleLabel = page.module || t("courseHome");
+    const metaSuffix = page.id === "home" ? t("overview") : page.id.toUpperCase();
     return `
       <section class="page" data-page="${page.id}">
         <div class="page-head">
-          <div class="meta">${page.module || "강좌 홈"} · ${page.id === "home" ? "Overview" : page.id.toUpperCase()}</div>
+          <div class="meta">${moduleLabel} · ${metaSuffix}</div>
           <h1>${page.title}</h1>
           ${page.summary ? `<p class="lead muted">${page.summary}</p>` : ""}
         </div>
         ${body}
         <div class="pager">
-          ${prev ? `<button class="btn btn-outline" data-go="${prev}">← 이전</button>` : `<span></span>`}
-          ${next ? `<button class="btn btn-teal" data-go="${next}">다음 →</button>` : `<button class="btn btn-teal" data-go="home">홈으로</button>`}
+          ${prev ? `<button class="btn btn-outline" data-go="${prev}">${t("prev")}</button>` : `<span></span>`}
+          ${next ? `<button class="btn btn-teal" data-go="${next}">${t("next")}</button>` : `<button class="btn btn-teal" data-go="home">${t("toHome")}</button>`}
         </div>
       </section>
     `;
@@ -431,6 +507,12 @@ JMP START</div>
 
   function renderP10(page) {
     const slides = page.slides || [];
+    const ui = page.ui || {};
+    const hint = ui.hint || t("storyHint");
+    const carouselLabel = ui.carouselLabel || t("storyCarousel");
+    const slideLabel = ui.slideLabel || t("storySlide");
+    const prevSlide = ui.prevSlide || t("prevSlide");
+    const nextSlide = ui.nextSlide || t("nextSlide");
     const track = slides
       .map(
         (s, i) => `
@@ -443,7 +525,7 @@ JMP START</div>
     const dots = slides
       .map(
         (_, i) =>
-          `<button type="button" class="story-dot${i === 0 ? " active" : ""}" data-story-goto="${i}" aria-label="슬라이드 ${i + 1}"></button>`
+          `<button type="button" class="story-dot${i === 0 ? " active" : ""}" data-story-goto="${i}" aria-label="${slideLabel} ${i + 1}"></button>`
       )
       .join("");
     const first = slides[0] || {};
@@ -462,17 +544,17 @@ JMP START</div>
         <div class="story-media panel">
           <div class="story-toolbar">
             <span class="chip" id="storyCounter">1 / ${slides.length}</span>
-            <span class="muted story-hint">옆으로 넘기거나 화살표를 사용하세요</span>
+            <span class="muted story-hint">${hint}</span>
           </div>
-          <div class="story-viewport" id="storyViewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="효율성 비교 슬라이드">
+          <div class="story-viewport" id="storyViewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="${carouselLabel}">
             <div class="story-track" id="storyTrack">
               ${track}
             </div>
           </div>
           <div class="story-controls">
-            <button type="button" class="btn btn-outline story-nav" id="storyPrev" aria-label="이전 슬라이드">←</button>
+            <button type="button" class="btn btn-outline story-nav" id="storyPrev" aria-label="${prevSlide}">←</button>
             <div class="story-dots" id="storyDots">${dots}</div>
-            <button type="button" class="btn btn-outline story-nav" id="storyNext" aria-label="다음 슬라이드">→</button>
+            <button type="button" class="btn btn-outline story-nav" id="storyNext" aria-label="${nextSlide}">→</button>
           </div>
         </div>
         <div class="panel story-copy" id="storyCopy">
@@ -502,15 +584,33 @@ JMP START</div>
   };
 
   function buildSidebar() {
-    let html = `<a href="#home" data-nav="home"><strong>홈</strong><small>강좌 개요</small></a>`;
+    let html = `<a href="#home" data-nav="home"><strong>${t("home")}</strong><small>${t("homeSub")}</small></a>`;
     COURSE.modules.forEach((m) => {
-      html += `<div class="sidebar-section">${m.title}</div>`;
+      const moduleTitle =
+        state.lang === "en" && m.id === "m3"
+          ? "Requirements Management for Better Vibe Coding"
+          : m.title;
+      html += `<div class="sidebar-section">${moduleTitle}</div>`;
       m.pages.forEach((pid) => {
-        const p = COURSE.pages[pid];
-        html += `<a href="#${pid}" data-nav="${pid}"><strong>${pid.toUpperCase()} · ${p.title}</strong><small>${m.title}</small></a>`;
+        const p = localizePage(COURSE.pages[pid]);
+        html += `<a href="#${pid}" data-nav="${pid}"><strong>${pid.toUpperCase()} · ${p.title}</strong><small>${moduleTitle}</small></a>`;
       });
     });
     sideNav.innerHTML = html;
+  }
+
+  function updateChrome() {
+    document.documentElement.lang = state.lang === "en" ? "en" : "ko";
+    if (sidebarLabel) sidebarLabel.textContent = t("contents");
+    if (siteFooter) siteFooter.textContent = t("footer");
+    if (navToggle) navToggle.setAttribute("aria-label", t("openNav"));
+    const progressWrap = document.querySelector(".progress-wrap");
+    if (progressWrap) progressWrap.setAttribute("aria-label", t("progressAria"));
+    langSwitch?.querySelectorAll("[data-lang]").forEach((btn) => {
+      const active = btn.dataset.lang === state.lang;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
   }
 
   function updateProgressUI() {
@@ -519,8 +619,8 @@ JMP START</div>
     const pct = Math.round((done / learnable.length) * 100);
     progressFill.style.width = `${pct}%`;
     progressPct.textContent = `${pct}%`;
-    const cur = COURSE.pages[state.current];
-    progressLabel.textContent = state.current === "home" ? "시작 전" : cur?.title || state.current;
+    const cur = localizePage(COURSE.pages[state.current]);
+    progressLabel.textContent = state.current === "home" ? t("notStarted") : cur?.title || state.current;
     sideNav.querySelectorAll("a").forEach((a) => {
       const id = a.dataset.nav;
       a.classList.toggle("active", id === state.current);
@@ -845,7 +945,7 @@ JMP START</div>
     if (id === "p7") bindP7(root);
     if (id === "p8") bindP8(root);
     if (id === "p9") bindP9(root);
-    if (id === "p10") bindP10(root, COURSE.pages.p10);
+    if (id === "p10") bindP10(root, localizePage(COURSE.pages.p10));
 
     root.querySelectorAll("[data-go]").forEach((btn) => {
       btn.addEventListener("click", () => navigate(btn.dataset.go));
@@ -859,18 +959,34 @@ JMP START</div>
       state.visited.add(id);
       saveProgress();
     }
-    const page = COURSE.pages[id] || { id: "home", title: "홈" };
+    const raw = COURSE.pages[id] || { id: "home", title: t("home") };
+    const page = localizePage(raw);
     const html = renderers[id](page);
     app.innerHTML = html;
     const section = app.querySelector(".page");
     section?.classList.add("active");
     bindPageInteractions(app, id);
+    updateChrome();
+    buildSidebar();
     updateProgressUI();
     closeNav();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (location.hash.replace("#", "") !== id) {
       history.replaceState(null, "", `#${id}`);
     }
+  }
+
+  function setLang(lang) {
+    const next = lang === "en" ? "en" : "ko";
+    if (state.lang === next) {
+      if (next === "en" && state.current !== "p10") navigate("p10");
+      return;
+    }
+    state.lang = next;
+    saveLang();
+    // Eng focuses the English page (P10); 한 keeps the current page.
+    if (next === "en" && state.current !== "p10") navigate("p10");
+    else navigate(state.current);
   }
 
   function openNav() {
@@ -890,6 +1006,12 @@ JMP START</div>
   });
   backdrop.addEventListener("click", closeNav);
 
+  langSwitch?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-lang]");
+    if (!btn) return;
+    setLang(btn.dataset.lang);
+  });
+
   document.addEventListener("click", (e) => {
     const a = e.target.closest("[data-nav]");
     if (!a) return;
@@ -902,6 +1024,7 @@ JMP START</div>
     if (id !== state.current) navigate(id);
   });
 
+  updateChrome();
   buildSidebar();
   navigate(location.hash.replace("#", "") || "home");
 })();
