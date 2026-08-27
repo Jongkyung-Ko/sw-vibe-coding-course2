@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SW × Vibe Coding 인터랙티브 강좌</title>
   <meta name="description" content="SW와 컴퓨터 기초부터 AI 바이브 코딩 요구사항 관리까지, 10페이지 인터랙티브 강좌" />
+  <meta name="theme-color" content="#0d6b56" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="SW×Vibe" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -28,6 +36,7 @@
       </div>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
+    <button type="button" class="btn-pwa" id="pwaInstallBtn" aria-label="앱으로 설치">앱 설치</button>
     <div class="lang-switch" role="group" aria-label="Language">
       <a class="lang-link active" href="./" aria-current="page">한</a>
       <a class="lang-link" id="langToEn" href="en/">Eng</a>
@@ -53,5 +62,6 @@
 
   <script src="js/content.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>
