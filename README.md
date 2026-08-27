@@ -16,7 +16,15 @@ SW·컴퓨터 기초 → 개발 표준 프로세스 → AI 바이브 코딩 요�
 | 7 | AI 바이브 코딩의 시작과 파급효과 |
 | 8 | 컨텍스트·요구사항 지침 Top 5 |
 | 9 | AI Agent와 상담하며 같이 개발하기 |
-| 10 | 전통 코딩 대비 효율성 · 프롬프팅 관리 수행력 (슬라이드, 한/Eng) |
+| 10 | 전통 코딩 대비 효율성 · 프롬프팅 관리 수행력 (슬라이드) |
+| EN | 독립 영어 P10 (`/en/`) — 영어 삽화 포함 |
+
+## 접속 주소 (GitHub Pages)
+
+- 한글 P10: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/#p10`
+- 영어 P10: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/en/`
+
+상단 **Eng** / **한** 버튼으로도 서로 이동할 수 있습니다.
 
 ## 로컬 실행
 

@@ -70,7 +70,8 @@ button, input, textarea, select { font: inherit; }
   background: #fff;
   flex-shrink: 0;
 }
-.lang-switch button {
+.lang-switch button,
+.lang-switch a.lang-link {
   border: none;
   background: transparent;
   color: var(--ink-soft);
@@ -80,15 +81,20 @@ button, input, textarea, select { font: inherit; }
   font-size: 0.82rem;
   cursor: pointer;
   transition: 0.15s ease;
+  text-decoration: none;
+  display: inline-block;
 }
-.lang-switch button:hover {
+.lang-switch button:hover,
+.lang-switch a.lang-link:hover {
   color: var(--teal-deep);
 }
-.lang-switch button.active {
+.lang-switch button.active,
+.lang-switch a.lang-link.active {
   background: var(--teal);
   color: #fff;
 }
-.lang-switch button:focus-visible {
+.lang-switch button:focus-visible,
+.lang-switch a.lang-link:focus-visible {
   outline: 2px solid rgba(13, 107, 86, 0.35);
   outline-offset: 2px;
 }
