@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SW × Vibe Coding — Efficiency Comparison (English)</title>
-  <meta name="description" content="English page: traditional coding vs prompting ops efficiency, with fully English illustrations." />
+  <title>SW × Vibe Coding — English Course</title>
+  <meta name="description" content="English interactive course: computer basics, software standards, and vibe coding requirements across 10 pages." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
@@ -15,41 +15,41 @@
   <div class="noise" aria-hidden="true"></div>
 
   <header class="topbar">
-    <a class="brand" href="./">
+    <a class="brand" href="#home" data-nav="home">
       <span class="brand-mark">SV</span>
       <span class="brand-text">
         <strong>SW × Vibe</strong>
-        <small>English · Page 10</small>
+        <small>English Course</small>
       </span>
     </a>
     <div class="progress-wrap" aria-label="Learning progress">
       <div class="progress-meta">
-        <span>P10 · English</span>
-        <span>EN</span>
+        <span id="progressLabel">Not started</span>
+        <span id="progressPct">0%</span>
       </div>
-      <div class="progress-track"><div class="progress-fill" style="width:100%"></div></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
     </div>
     <div class="lang-switch" role="group" aria-label="Language">
-      <a class="lang-link" href="../#p10" data-lang="ko">한</a>
-      <a class="lang-link active" href="./" data-lang="en" aria-current="page">Eng</a>
+      <a class="lang-link" id="langToKo" href="../#home">한</a>
+      <a class="lang-link active" href="./" aria-current="page">Eng</a>
     </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open contents" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </header>
 
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-label">Contents</p>
-    <nav>
-      <a href="./" class="active"><strong>P10 · Efficiency Comparison</strong><small>English standalone page</small></a>
-      <a href="../#p10"><strong>Korean P10</strong><small>한글 버전으로 이동</small></a>
-      <a href="../"><strong>Korean course home</strong><small>Full interactive course</small></a>
-    </nav>
+    <nav id="sideNav"></nav>
   </aside>
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
   <main id="app">
-    <!-- English P10 injected by JS -->
+    <!-- English pages injected by JS -->
   </main>
 
   <footer class="site-footer">
-    <p>Course illustrations · Educational non-commercial use</p>
+    <p>Image sources: Wikimedia Commons · Educational non-commercial use · P10 illustrations for this course</p>
   </footer>
 
   <script src="js/content.js"></script>

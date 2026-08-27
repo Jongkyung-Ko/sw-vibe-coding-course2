@@ -1,10 +1,6 @@
-/* English standalone page overrides */
+/* English standalone course overrides */
 .en-page {
   --font-body: "IBM Plex Sans", "IBM Plex Sans KR", sans-serif;
-}
-
-.en-page .sidebar {
-  /* Always visible on desktop; no mobile drawer needed for single-page EN view */
 }
 
 .en-page .lang-switch a.lang-link {
@@ -33,28 +29,8 @@
   justify-content: center;
 }
 
-.en-page .nav-toggle {
-  display: none !important;
-}
-
 @media (max-width: 860px) {
-  .en-page .sidebar {
-    position: static;
-    width: auto;
-    transform: none;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
-    background: rgba(255, 255, 255, 0.85);
-    padding: 0.75rem 1rem 1rem;
-  }
-  .en-page #app,
-  .en-page .site-footer {
-    margin-left: 0;
-  }
   .en-page .topbar {
-    grid-template-columns: 1fr auto;
-  }
-  .en-page .progress-wrap {
-    display: none;
+    grid-template-columns: 1fr auto auto;
   }
 }

@@ -866,6 +866,10 @@ JMP START</div>
     section?.classList.add("active");
     bindPageInteractions(app, id);
     updateProgressUI();
+    const enLink = document.getElementById("langToEn");
+    if (enLink) enLink.href = "en/#" + id;
+    const koSelf = document.querySelector('.lang-switch a.lang-link.active');
+    if (koSelf && koSelf.id !== "langToEn") koSelf.href = "./#" + id;
     closeNav();
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (location.hash.replace("#", "") !== id) {

@@ -17,14 +17,17 @@ SW·컴퓨터 기초 → 개발 표준 프로세스 → AI 바이브 코딩 요�
 | 8 | 컨텍스트·요구사항 지침 Top 5 |
 | 9 | AI Agent와 상담하며 같이 개발하기 |
 | 10 | 전통 코딩 대비 효율성 · 프롬프팅 관리 수행력 (슬라이드) |
-| EN | 독립 영어 P10 (`/en/`) — 영어 삽화 포함 |
+| EN | 독립 영어 강좌 `/en/` — P1–P10 전체 + P10 영어 삽화 |
 
 ## 접속 주소 (GitHub Pages)
 
+- 한글 홈: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/`
 - 한글 P10: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/#p10`
-- 영어 P10: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/en/`
+- 영어 홈 (독립): `https://jongkyung-ko.github.io/sw-vibe-coding-course2/en/`
+- 영어 P10: `https://jongkyung-ko.github.io/sw-vibe-coding-course2/en/#p10`
 
-상단 **Eng** / **한** 버튼으로도 서로 이동할 수 있습니다.
+상단 **Eng** / **한** 버튼은 현재 페이지에 맞춰 상대 언어 버전으로 이동합니다.
+영어 강좌는 `/en/` 아래 독립 파일(`en/index.html`, `en/js/*`)로 구성되며 P1–P10 전체를 포함합니다.
 
 ## 로컬 실행
 
